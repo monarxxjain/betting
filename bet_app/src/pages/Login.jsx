@@ -56,7 +56,7 @@ const Login = () => {
 
     if (b + c === 2) {
       try {
-        const data = await axios.post("http://localhost:5500/login", {
+        const data = await axios.post("http://localhost:5100/login", {
           phone: Phone,
           password: Pass,
         });

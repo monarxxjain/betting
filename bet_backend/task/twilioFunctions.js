@@ -2,6 +2,7 @@ require('dotenv').config();
 const accountSid=process.env.TWILIO_ACCOUNT_SID
 const authToken=process.env.TWILIO_AUTH_TOKEN
 const serviceId=process.env.TWILIO_MESSAGING_SERVICE_ID;
+const adminNumber = process.env.TWILIO_ADMIN_NUMBER;
 const client = require('twilio')(accountSid, authToken);
 const Bet = require('../model/betSchema');
 
@@ -10,7 +11,7 @@ const sendMessage = async (req, resp) => {
     try {
       const message = await client.messages.create({
         to: `+91${req.body.number}`,
-        from: '+16562130651',
+        from:adminNumber,
         messagingServiceSid: serviceId,
         body: `Hi ${req.body.receName} there is a bet being placed by ${req.body.sendName}, please click the link below to accept/decline the request:https://github.com/Shivampatil22/BET_APP/pull/10`,
       });
@@ -53,7 +54,7 @@ const sendResolutionUpdate = async (req, resp) => {
   try {
     const message = await client.messages.create({
       to: `+91${req.body.number}`,
-      from: '+16562130651',
+      from:adminNumber,
       messagingServiceSid: serviceId,
       sendAt: new Date(Date.UTC(utcYear,utcMonth-1,utcDay,utcHours,utcMin,utcSec)),
       scheduleType: 'fixed',
@@ -74,7 +75,7 @@ const sendResult = async (req, resp) => {
   try {
     const message = await client.messages.create({
       to: `+91${req.body.number}`,
-      from: '+16562130651',
+      from:adminNumber,
       messagingServiceSid: serviceId,
       body: `Hi ${req.body.user} you are the ${req.body.result} of the bet`,
     });

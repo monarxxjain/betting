@@ -11,7 +11,7 @@ const LoseList = () => {
   const GetloseBets = async () => {
     try {
       let list = await axios.get(
-        `http://localhost:5500/api/getbet/${num}/close`
+        `http://localhost:5100/api/getbet/${num}/close`
       );
       let final_list = [];
       list = list.data;

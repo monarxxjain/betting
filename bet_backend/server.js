@@ -26,7 +26,7 @@ mongoose
         autoIndex: true
     })
     .then(() => {
-        app.listen(5500)
+        app.listen(5100)
         console.log("connected");
     })
     .catch((err) => {

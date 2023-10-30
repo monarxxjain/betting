@@ -10,26 +10,26 @@ const WinList = () => {
   const getWins = async () => {
     try {
       let list = await axios.get(
-        `http://localhost:5500/api/getbet/${num}/close`
+        `http://localhost:5100/api/getbet/${num}/close`
       );
       list = list.data;
       let finalList = [];
 
       for (let i = 0; i < list.length; i++) {
-     
+
         if (list[i].senderNumber == num && list[i].senderFinalResp == "Yes") {
-          
+
           finalList.push(list[i]);
         }
         if (
           list[i].receiverNumber == num &&
           list[i].receiverFinalResp == "Yes"
         ) {
-          
+
           finalList.push(list[i]);
         }
       }
-     
+
       setBetList(finalList);
     } catch (error) {
       console.error("An error occurred while fetching bets:", error);

@@ -22,20 +22,20 @@ const CreateBet = () => {
   // Function to fetch user data
   const getUser = async () => {
     try {
-      const user = await axios.get(
-        `http://localhost:5500/user/${localStorage.getItem("user")}`
+      let user = await axios.get(
+        `http://localhost:5100/user/${localStorage.getItem("user")}`
       );
       user = user.data;
       setUsername(user.name);
-    
+
     }
-    catch(e){
-      
+    catch (e) {
+
     }
   }
   const sendResp = async () => {
     try {
-      const response = await axios.post(`http://localhost:5500/api/sendmessage`,
+      const response = await axios.post(`http://localhost:5100/api/sendmessage`,
         {
           number: receiverNumber,
           receName: receiverName,
@@ -53,7 +53,7 @@ const CreateBet = () => {
   // const sendResp = async () => {
   //   try {
   //     const response = await axios.post(
-  //       "http://localhost:5500/api/sendmessage",
+  //       "http://localhost:5100/api/sendmessage",
   //       {
   //         number: receiverNumber,
   //       }
@@ -67,11 +67,11 @@ const CreateBet = () => {
   // Function to initiate a bet
   const initiateBet = async () => {
     console.warn(resolDate);
-    let receiverResponse='Yes'
-    if(senderResponse =='Yes'){
-        receiverResponse='No'
-    }else{
-      receiverResponse='Yes'
+    let receiverResponse = 'Yes'
+    if (senderResponse == 'Yes') {
+      receiverResponse = 'No'
+    } else {
+      receiverResponse = 'Yes'
     }
 
     if (
@@ -110,7 +110,7 @@ const CreateBet = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5500/api/createbet",
+        "http://localhost:5100/api/createbet",
         betData
       );
 
@@ -139,7 +139,7 @@ const CreateBet = () => {
       status
     );
 
-   
+
 
   };
 

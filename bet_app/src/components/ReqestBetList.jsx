@@ -10,7 +10,7 @@ const ReqestBetList = () => {
   const GetRequests = async () => {
     try {
       let list = await axios.get(
-        `http://localhost:5500/api/getrequest/${num}/pending`
+        `http://localhost:5100/api/getrequest/${num}/pending`
       );
       list = list.data;
       setBetList(list);
@@ -23,7 +23,7 @@ const ReqestBetList = () => {
   const DeleteBet = async (id) => {
     try {
       let result = await axios.delete(
-        `http://localhost:5500/api/deletebet/${id}`
+        `http://localhost:5100/api/deletebet/${id}`
       );
       GetRequests(); // Refresh the bet list after deletion
     } catch (error) {
@@ -35,7 +35,7 @@ const ReqestBetList = () => {
   const AcceptBet = async (id, resolDate, senderNumber, receiverNumber) => {
     try {
       let result = await axios.patch(
-        `http://localhost:5500/api/updatestatus/${id}`,
+        `http://localhost:5100/api/updatestatus/${id}`,
         {
           status: "open",
         }
@@ -44,7 +44,7 @@ const ReqestBetList = () => {
 
       // Perform scheduled tasks here
       let msg1 = await axios.post(
-        `http://localhost:5500/api/sendresolupdate/${id}`,
+        `http://localhost:5100/api/sendresolupdate/${id}`,
         {
           resolDate: resolDate,
           number: senderNumber,
@@ -52,7 +52,7 @@ const ReqestBetList = () => {
       );
 
       let msg2 = await axios.post(
-        `http://localhost:5500/api/sendresolupdate/${id}`,
+        `http://localhost:5100/api/sendresolupdate/${id}`,
         {
           resolDate: resolDate,
           number: receiverNumber,

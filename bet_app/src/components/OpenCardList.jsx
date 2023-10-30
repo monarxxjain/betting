@@ -22,11 +22,11 @@ const CardList = () => {
   const GetOpenBets = async () => {
     try {
       let list1 = await axios.get(
-        `http://localhost:5500/api/getbet/${num}/open`
+        `http://localhost:5100/api/getbet/${num}/open`
       );
       list1 = list1.data;
       let list2 = await axios.get(
-        `http://localhost:5500/api/getbet/${num}/final`
+        `http://localhost:5100/api/getbet/${num}/final`
       );
       let ids = [];
 
@@ -44,7 +44,7 @@ const CardList = () => {
       setBetList(list2);
 
       if (ids.length > 0) {
-        await axios.patch("http://localhost:5500/api/updatefinal", {
+        await axios.patch("http://localhost:5100/api/updatefinal", {
           ids: [...ids],
         });
       }
@@ -69,23 +69,23 @@ const CardList = () => {
     }
     if (check == 1) {
       if (receiverResp == "NIL") {
-        await axios.patch(`http://localhost:5500/api/setfinalresp/${id}/1`, {
+        await axios.patch(`http://localhost:5100/api/setfinalresp/${id}/1`, {
           finalResp: resp,
         });
       } else {
         if (receiverResp == resp) {
           alert("Both participants have given the same response");
         } else {
-          await axios.patch(`http://localhost:5500/api/setfinalresp/${id}/1`, {
+          await axios.patch(`http://localhost:5100/api/setfinalresp/${id}/1`, {
             finalResp: resp,
           });
           if (resp == "Yes") {
-            await axios.post("http://localhost:5500/api/sendresult", {
+            await axios.post("http://localhost:5100/api/sendresult", {
               number: senderPhone,
               user: sendername,
               result: "Winner",
             });
-            await axios.post("http://localhost:5500/api/sendresult", {
+            await axios.post("http://localhost:5100/api/sendresult", {
               number: receiverPhone,
               user: receivername,
               result: "Loser",
@@ -94,12 +94,12 @@ const CardList = () => {
             alert("Congratulations, you won the bet");
           }
           if (resp == "No") {
-            await axios.post("http://localhost:5500/api/sendresult", {
+            await axios.post("http://localhost:5100/api/sendresult", {
               number: senderPhone,
               user: sendername,
               result: "Loser",
             });
-            await axios.post("http://localhost:5500/api/sendresult", {
+            await axios.post("http://localhost:5100/api/sendresult", {
               number: receiverPhone,
               user: receivername,
               result: "Winner",
@@ -107,30 +107,30 @@ const CardList = () => {
             GetOpenBets();
             alert("You lose");
           }
-          await axios.patch(`http://localhost:5500/api/updatestatus/${id}`, {
+          await axios.patch(`http://localhost:5100/api/updatestatus/${id}`, {
             status: "close",
           });
         }
       }
     } else {
       if (senderResp == "NIL") {
-        await axios.patch(`http://localhost:5500/api/setfinalresp/${id}/0`, {
+        await axios.patch(`http://localhost:5100/api/setfinalresp/${id}/0`, {
           finalResp: resp,
         });
       } else {
         if (senderResp == resp) {
           alert("Both participants have given the same response");
         } else {
-          await axios.patch(`http://localhost:5500/api/setfinalresp/${id}/0`, {
+          await axios.patch(`http://localhost:5100/api/setfinalresp/${id}/0`, {
             finalResp: resp,
           });
           if (resp == "Yes") {
-            await axios.post("http://localhost:5500/api/sendresult", {
+            await axios.post("http://localhost:5100/api/sendresult", {
               number: senderPhone,
               user: sendername,
               result: "Loser",
             });
-            await axios.post("http://localhost:5500/api/sendresult", {
+            await axios.post("http://localhost:5100/api/sendresult", {
               number: receiverPhone,
               user: receivername,
               result: "Winner",
@@ -139,12 +139,12 @@ const CardList = () => {
             alert("Congratulations, you won the bet");
           }
           if (resp == "No") {
-            await axios.post("http://localhost:5500/api/sendresult", {
+            await axios.post("http://localhost:5100/api/sendresult", {
               number: senderPhone,
               user: sendername,
               result: "Winner",
             });
-            await axios.post("http://localhost:5500/api/sendresult", {
+            await axios.post("http://localhost:5100/api/sendresult", {
               number: receiverPhone,
               user: receivername,
               result: "Loser",
@@ -152,7 +152,7 @@ const CardList = () => {
             GetOpenBets();
             alert("You lose");
           }
-          await axios.patch(`http://localhost:5500/api/updatestatus/${id}`, {
+          await axios.patch(`http://localhost:5100/api/updatestatus/${id}`, {
             status: "close",
           });
         }
