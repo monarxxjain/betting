@@ -1,23 +1,11 @@
 const Bet = require('../model/betSchema');
-const User=require("../model/userModel")
+
 // API to create a new bet
 const createBet = async (req, resp) => {
   try {
-    const { receiverNumber }=req.body;
-    console.log(receiverNumber)
-    let check = await User.findOne({ phone: receiverNumber })
-    
-    if(check){
-      let bet = new Bet(req.body);
-      let result = await bet.save();
-      resp.send(result);
-      
-    }
-    else{
-      console.log('The reciver is not registered')
-      resp.send({ error: 'The reciver is not registered'});
-    }
- 
+    let bet = new Bet(req.body);
+    let result = await bet.save();
+    resp.send(result);
   } catch (error) {
     resp.status(500).send({ error: 'Error creating a bet', details: error.message });
   }
