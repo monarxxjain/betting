@@ -58,7 +58,7 @@ const sendResolutionUpdate = async (req, resp) => {
       messagingServiceSid: serviceId,
       sendAt: new Date(Date.UTC(utcYear,utcMonth-1,utcDay,utcHours,utcMin,utcSec)),
       scheduleType: 'fixed',
-      body: `Hello, Today the resolution date has hit, please give the final responses of the outcome of the bet placed by clicking the link below: https://github.com/Shivampatil22/BET_APP/pull/10`,
+      body: `Hello, Today the resolution date has hit, please give the final responses of the outcome of the bet placed. `,
     });
     
     // Send a response to the API
