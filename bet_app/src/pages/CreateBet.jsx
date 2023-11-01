@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import { useNavigate } from "react-router-dom";
-
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 const CreateBet = () => {
   const [senderName, setSenderName] = useState("");
   const [senderResponse, setSenderResponse] = useState("");
@@ -17,6 +18,7 @@ const CreateBet = () => {
   const senderNumber = localStorage.getItem("phone");
   const [error, setError] = useState(false);
   const [username, setUsername] = useState("");
+  const [dialcodeNum,setdialcodeNum]=useState("")
   const navigate = useNavigate();
 
   // Function to fetch user data
@@ -35,9 +37,10 @@ const CreateBet = () => {
   }
   const sendResp = async () => {
     try {
+     
       const response = await axios.post(`http://localhost:5100/api/sendmessage`,
         {
-          number: receiverNumber,
+          number: dialcodeNum,
           receName: receiverName,
           sendName: senderName,
         }
@@ -49,24 +52,14 @@ const CreateBet = () => {
     }
   };
 
-  // Function to send a response to the counterparty
-  // const sendResp = async () => {
-  //   try {
-  //     const response = await axios.post(
-  //       "http://localhost:5100/api/sendmessage",
-  //       {
-  //         number: receiverNumber,
-  //       }
-  //     );
-  //     console.log("Response:", response.data);
-  //   } catch (error) {
-  //     console.error("An error occurred while sending a response:", error);
-  //   }
-  // };
+  const handlenumberChange=(value,data)=>{
+    setdialcodeNum(`+${value}`);
+    setReceiverNumber(value.slice(data.dialCode.length));
+  }
 
   // Function to initiate a bet
   const initiateBet = async () => {
-    console.warn(resolDate);
+   
     let receiverResponse = 'Yes'
     if (senderResponse == 'Yes') {
       receiverResponse = 'No'
@@ -113,7 +106,10 @@ const CreateBet = () => {
         "http://localhost:5100/api/createbet",
         betData
       );
-
+      if(response.data.error){
+        alert("Receiver is not registerd");
+        return false;
+      }
       if (response.status === 200) {
         // Calling the send response API after posting a new bet to get the bet confirmation from the counterparty.
         sendResp();
@@ -123,7 +119,8 @@ const CreateBet = () => {
         console.error("Error creating bet", response.status, response.data);
       }
     } catch (error) {
-      console.error("An error occurred while creating the bet", error);
+
+      console.error(error.message);
     }
 
     console.warn(
@@ -246,13 +243,16 @@ const CreateBet = () => {
           >
             Counterparty Phone Number
           </label>
-          <input
-            type="text"
+          <PhoneInput
+            country={"us"}
             id="receiverNumber"
-            placeholder="Enter Counterparty Number"
-            className="border border-gray-300 rounded-md p-2 w-full"
-            value={receiverNumber}
-            onChange={(e) => setReceiverNumber(e.target.value)}
+            // placeholder="Enter Counterparty Number"
+            // className="border border-gray-300 rounded-md p-2 w-full"
+            inputProps={{
+              required: true,
+            }}
+            value={dialcodeNum}
+            onChange={handlenumberChange}
           />
           {error && (!receiverNumber || isNaN(receiverNumber)) && (
             <span className="text-red-500 text-left">
