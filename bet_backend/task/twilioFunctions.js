@@ -10,7 +10,7 @@ const Bet = require('../model/betSchema');
 const sendMessage = async (req, resp) => {
     try {
       const message = await client.messages.create({
-        to: `${req.body.number}`,
+        to: `+91${req.body.number}`,
         from:adminNumber,
         messagingServiceSid: serviceId,
         body: `Hi ${req.body.receName} there is a bet being placed by ${req.body.sendName}, please click the link below to accept/decline the request:https://github.com/Shivampatil22/BET_APP/pull/10`,
