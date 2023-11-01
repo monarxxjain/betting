@@ -80,30 +80,40 @@ const CardList = () => {
             finalResp: resp,
           });
           if (resp == "Yes") {
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: senderPhone,
-              user: sendername,
-              result: "Winner",
-            });
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: receiverPhone,
-              user: receivername,
-              result: "Loser",
-            });
+            try {
+              await axios.post("http://localhost:5100/api/sendresult", {
+                number: senderPhone,
+                user: sendername,
+                result: "Winner",
+              });
+              await axios.post("http://localhost:5100/api/sendresult", {
+                number: receiverPhone,
+                user: receivername,
+                result: "Loser",
+              });
+              
+            } catch (error) {
+              
+            }
             GetOpenBets();
             alert("Congratulations, you won the bet");
           }
           if (resp == "No") {
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: senderPhone,
-              user: sendername,
-              result: "Loser",
-            });
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: receiverPhone,
-              user: receivername,
-              result: "Winner",
-            });
+            try {
+              await axios.post("http://localhost:5100/api/sendresult", {
+                number: senderPhone,
+                user: sendername,
+                result: "Loser",
+              });
+              await axios.post("http://localhost:5100/api/sendresult", {
+                number: receiverPhone,
+                user: receivername,
+                result: "Winner",
+              });
+              
+            } catch (error) {
+              
+            }
             GetOpenBets();
             alert("You lose");
           }
@@ -125,30 +135,40 @@ const CardList = () => {
             finalResp: resp,
           });
           if (resp == "Yes") {
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: senderPhone,
-              user: sendername,
-              result: "Loser",
-            });
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: receiverPhone,
-              user: receivername,
-              result: "Winner",
-            });
+            try {
+              await axios.post("http://localhost:5100/api/sendresult", {
+                number: senderPhone,
+                user: sendername,
+                result: "Loser",
+              });
+              await axios.post("http://localhost:5100/api/sendresult", {
+                number: receiverPhone,
+                user: receivername,
+                result: "Winner",
+              });
+              
+            } catch (error) {
+              
+            }
             GetOpenBets();
             alert("Congratulations, you won the bet");
           }
           if (resp == "No") {
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: senderPhone,
-              user: sendername,
-              result: "Winner",
-            });
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: receiverPhone,
-              user: receivername,
-              result: "Loser",
-            });
+            try {
+              await axios.post("http://localhost:5100/api/sendresult", {
+                number: senderPhone,
+                user: sendername,
+                result: "Winner",
+              });
+              await axios.post("http://localhost:5100/api/sendresult", {
+                number: receiverPhone,
+                user: receivername,
+                result: "Loser",
+              });
+              
+            } catch (error) {
+              
+            }
             GetOpenBets();
             alert("You lose");
           }
