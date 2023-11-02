@@ -41,8 +41,16 @@ const ReqestBetList = () => {
         }
       );
       GetRequests(); // Refresh the bet list after accepting the request
-
+        console.log(receiverNumber);
+        let msg2 = await axios.post(
+          `http://localhost:5100/api/sendresolupdate/${id}`,
+          {
+            resolDate: resolDate,
+            number: receiverNumber,
+          }
+        );
       // Perform scheduled tasks here
+      console.log(senderNumber);
       let msg1 = await axios.post(
         `http://localhost:5100/api/sendresolupdate/${id}`,
         {
@@ -50,14 +58,7 @@ const ReqestBetList = () => {
           number: senderNumber,
         }
       );
-
-      let msg2 = await axios.post(
-        `http://localhost:5100/api/sendresolupdate/${id}`,
-        {
-          resolDate: resolDate,
-          number: receiverNumber,
-        }
-      );
+      
 
       console.log(`Scheduled message sent for: ${resolDate}`);
     } catch (error) {

@@ -16,9 +16,31 @@ const CreateBet = () => {
   const [receiverFinalResp, setReceiverFinalResp] = useState("NIL");
   const senderNumber = localStorage.getItem("phone");
   const [error, setError] = useState(false);
+  const [dateErr,setDateErr]=useState(false);
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
+
+  function isDate20MinutesGreater(inputDate) {
+    // Parse the input date in ISO format
+    const givenDate = new Date(inputDate);
+
+    // Get the current date and time
+    const currentDate = new Date();
+
+    // Calculate the time difference in milliseconds
+    const timeDifference = givenDate - currentDate;
+    // console.log(timeDifference)
+
+    // Convert 20 minutes to milliseconds (1 minute = 60,000 milliseconds)
+    const twentyMinutesInMilliseconds = 15 * 60000;
+      // console.log(twentyMinutesInMilliseconds);
+    // Compare the time difference with 20 minutes
+     if(timeDifference>twentyMinutesInMilliseconds){
+      return true;
+     }
+     return false;
+  }
   // Function to fetch user data
   const getUser = async () => {
     try {
@@ -49,20 +71,10 @@ const CreateBet = () => {
     }
   };
 
-  // Function to send a response to the counterparty
-  // const sendResp = async () => {
-  //   try {
-  //     const response = await axios.post(
-  //       "http://localhost:5100/api/sendmessage",
-  //       {
-  //         number: receiverNumber,
-  //       }
-  //     );
-  //     console.log("Response:", response.data);
-  //   } catch (error) {
-  //     console.error("An error occurred while sending a response:", error);
-  //   }
-  // };
+  const handlenumberChange=(value,data)=>{
+    setReceiverNumber(value);
+  }
+
 
   // Function to initiate a bet
   const initiateBet = async () => {
@@ -93,6 +105,11 @@ const CreateBet = () => {
       return;
     }
 
+    if (!isDate20MinutesGreater(resolDate)) {
+      console.log("false")
+      setDateErr(true);
+      return
+    }
     const betData = {
       senderName,
       senderResponse,
@@ -249,10 +266,13 @@ const CreateBet = () => {
           <input
             type="text"
             id="receiverNumber"
-            placeholder="Enter Counterparty Number"
-            className="border border-gray-300 rounded-md p-2 w-full"
+
+            inputProps={{
+              required: true,
+            }}
             value={receiverNumber}
-            onChange={(e) => setReceiverNumber(e.target.value)}
+            onChange={handlenumberChange}
+
           />
           {error && (!receiverNumber || isNaN(receiverNumber)) && (
             <span className="text-red-500 text-left">
@@ -299,6 +319,9 @@ const CreateBet = () => {
 
           {error && !resolDate && (
             <span className="text-red-500 text-left">Enter a valid date</span>
+          )}
+          { dateErr && (
+            <span className="text-red-500 text-left">Enter a date 20 mins greater than current date and less than 7 days</span>
           )}
         </div>
 
