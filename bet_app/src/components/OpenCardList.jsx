@@ -79,37 +79,47 @@ const CardList = () => {
           await axios.patch(`http://localhost:5100/api/setfinalresp/${id}/1`, {
             finalResp: resp,
           });
-          if (resp == "Yes") {
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: senderPhone,
-              user: sendername,
-              result: "Winner",
-            });
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: receiverPhone,
-              user: receivername,
-              result: "Loser",
-            });
-            GetOpenBets();
-            alert("Congratulations, you won the bet");
-          }
-          if (resp == "No") {
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: senderPhone,
-              user: sendername,
-              result: "Loser",
-            });
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: receiverPhone,
-              user: receivername,
-              result: "Winner",
-            });
-            GetOpenBets();
-            alert("You lose");
-          }
           await axios.patch(`http://localhost:5100/api/updatestatus/${id}`, {
             status: "close",
           });
+          if (resp == "Yes") {
+            alert("Congratulations, you won the bet");
+            GetOpenBets();
+
+            try {
+              await axios.post("http://localhost:5100/api/sendresult", {
+                number: senderPhone,
+                user: sendername,
+                result: "Winner",
+              });
+              await axios.post("http://localhost:5100/api/sendresult", {
+                number: receiverPhone,
+                user: receivername,
+                result: "Loser",
+              });
+            } catch (e) {
+              alert("Something went wrong cannot send result message");
+            }
+          }
+          if (resp == "No") {
+            alert("You lose");
+            GetOpenBets();
+
+            try {
+              await axios.post("http://localhost:5100/api/sendresult", {
+                number: senderPhone,
+                user: sendername,
+                result: "Loser",
+              });
+              await axios.post("http://localhost:5100/api/sendresult", {
+                number: receiverPhone,
+                user: receivername,
+                result: "Winner",
+              });
+            } catch (e) {
+              alert("Something went wrong cannot send result message");
+            }
+          }
         }
       }
     } else {
@@ -124,37 +134,39 @@ const CardList = () => {
           await axios.patch(`http://localhost:5100/api/setfinalresp/${id}/0`, {
             finalResp: resp,
           });
-          if (resp == "Yes") {
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: senderPhone,
-              user: sendername,
-              result: "Loser",
-            });
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: receiverPhone,
-              user: receivername,
-              result: "Winner",
-            });
-            GetOpenBets();
-            alert("Congratulations, you won the bet");
-          }
-          if (resp == "No") {
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: senderPhone,
-              user: sendername,
-              result: "Winner",
-            });
-            await axios.post("http://localhost:5100/api/sendresult", {
-              number: receiverPhone,
-              user: receivername,
-              result: "Loser",
-            });
-            GetOpenBets();
-            alert("You lose");
-          }
           await axios.patch(`http://localhost:5100/api/updatestatus/${id}`, {
             status: "close",
           });
+          if (resp == "Yes") {
+            alert("Congratulations, you won the bet");
+            GetOpenBets();
+
+            await axios.post("http://localhost:5100/api/sendresult", {
+              number: senderPhone,
+              user: sendername,
+              result: "Loser",
+            });
+            await axios.post("http://localhost:5100/api/sendresult", {
+              number: receiverPhone,
+              user: receivername,
+              result: "Winner",
+            });
+          }
+          if (resp == "No") {
+            alert("You lose");
+            GetOpenBets();
+
+            await axios.post("http://localhost:5100/api/sendresult", {
+              number: senderPhone,
+              user: sendername,
+              result: "Winner",
+            });
+            await axios.post("http://localhost:5100/api/sendresult", {
+              number: receiverPhone,
+              user: receivername,
+              result: "Loser",
+            });
+          }
         }
       }
     }
