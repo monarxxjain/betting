@@ -2,8 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import { useNavigate } from "react-router-dom";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+
 const CreateBet = () => {
   const [senderName, setSenderName] = useState("");
   const [senderResponse, setSenderResponse] = useState("");
@@ -58,7 +57,6 @@ const CreateBet = () => {
   }
   const sendResp = async () => {
     try {
-     
       const response = await axios.post(`http://localhost:5100/api/sendmessage`,
         {
           number: receiverNumber,
@@ -77,9 +75,10 @@ const CreateBet = () => {
     setReceiverNumber(value);
   }
 
+
   // Function to initiate a bet
   const initiateBet = async () => {
-   
+    console.warn(resolDate);
     let receiverResponse = 'Yes'
     if (senderResponse == 'Yes') {
       receiverResponse = 'No'
@@ -131,10 +130,7 @@ const CreateBet = () => {
         "http://localhost:5100/api/createbet",
         betData
       );
-      if(response.data.error){
-        alert("Receiver is not registerd");
-        return false;
-      }
+
       if (response.status === 200) {
         // Calling the send response API after posting a new bet to get the bet confirmation from the counterparty.
         sendResp();
@@ -144,8 +140,7 @@ const CreateBet = () => {
         console.error("Error creating bet", response.status, response.data);
       }
     } catch (error) {
-
-      console.error(error.message);
+      console.error("An error occurred while creating the bet", error);
     }
 
     console.warn(
@@ -268,14 +263,16 @@ const CreateBet = () => {
           >
             Counterparty Phone Number
           </label>
-          <PhoneInput
-            country={"us"}
+          <input
+            type="text"
             id="receiverNumber"
+
             inputProps={{
               required: true,
             }}
             value={receiverNumber}
             onChange={handlenumberChange}
+
           />
           {error && (!receiverNumber || isNaN(receiverNumber)) && (
             <span className="text-red-500 text-left">
